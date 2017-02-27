@@ -51,6 +51,10 @@ import com.grumbybirb.recyclapple.barcode.camera.CameraSourcePreview;
 import com.grumbybirb.recyclapple.barcode.camera.GraphicOverlay;
 
 import java.io.IOException;
+import java.security.Policy;
+
+//import static android.hardware.Camera.Parameters.FLASH_MODE_OFF;
+import static android.hardware.camera2.CameraMetadata.FLASH_MODE_TORCH;
 
 /**
  * Activity for the multi-tracker app.  This app detects barcodes and displays the value with the
@@ -108,6 +112,15 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
         Snackbar.make(mGraphicOverlay, "Tap to capture. Pinch/Stretch to zoom",
                 Snackbar.LENGTH_LONG)
                 .show();
+    }
+
+    public void toggleFlash(View view) {
+        Log.d("myTag", mCameraSource.getFlashMode());
+        if (mCameraSource.getFlashMode().equals("torch")) {
+            mCameraSource.setFlashMode("off");
+        } else if (mCameraSource.getFlashMode().equals("off")) {
+            mCameraSource.setFlashMode("torch");
+        }
     }
 
     /**
