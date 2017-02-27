@@ -24,8 +24,9 @@
 
         </com.grumbybirb.recyclapple.barcode.camera.CameraSourcePreview>
 
-        <Button
-            android:text="Button"
+        <ImageButton
+            android:src="@drawable/ic_flash_on_black_24dp"
+            android:onClick="toggleFlash"
             android:layout_width="48dp"
             android:layout_height="48dp"
             android:background="@color/colorAccent"
