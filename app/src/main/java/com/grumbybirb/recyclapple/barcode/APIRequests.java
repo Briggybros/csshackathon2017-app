@@ -14,12 +14,12 @@ import java.net.URL;
  * Created by Joe on 27/02/2017.
  */
 
-class APIRequests extends AsyncTask<<String,Integer,Integer>, Void, String> {
+class APIRequests extends AsyncTask<Integer, Void, String> {
 
     private Exception exception;
 
     @Override
-    protected String doInBackground( ... params) {
+    protected String doInBackground(Integer ... params) {
         // Do some validation here
 
         try {
