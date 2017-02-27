@@ -51,10 +51,6 @@ import com.grumbybirb.recyclapple.barcode.camera.CameraSourcePreview;
 import com.grumbybirb.recyclapple.barcode.camera.GraphicOverlay;
 
 import java.io.IOException;
-import java.security.Policy;
-
-//import static android.hardware.Camera.Parameters.FLASH_MODE_OFF;
-import static android.hardware.camera2.CameraMetadata.FLASH_MODE_TORCH;
 
 /**
  * Activity for the multi-tracker app.  This app detects barcodes and displays the value with the
@@ -95,7 +91,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
         mGraphicOverlay = (GraphicOverlay<BarcodeGraphic>) findViewById(R.id.graphicOverlay);
 
         // read parameters from the intent used to launch the activity.
-        boolean useFlash = getIntent().getBooleanExtra(UseFlash, true);
+        boolean useFlash = getIntent().getBooleanExtra(UseFlash, false);
 
         // Check for the camera permission before accessing the camera.  If the
         // permission is not granted yet, request permission.
