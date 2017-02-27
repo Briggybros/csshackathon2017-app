@@ -26,6 +26,7 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
+import android.os.AsyncTask;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -372,13 +373,19 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
         }
 
         if (best != null) {
-            Intent data = new Intent();
-            data.putExtra(BarcodeObject, best);
-            setResult(CommonStatusCodes.SUCCESS, data);
-            finish();
+            Log.d("Barcode", best.displayValue);
+            FetchInstructionsTask fetchInstructionsTask = new FetchInstructionsTask();
+            fetchInstructionsTask.execute();
             return true;
         }
         return false;
+    }
+
+    public class FetchInstructionsTask extends AsyncTask<String, Void, String> {
+        @Override
+        protected String doInBackground(String... params) {
+
+        }
     }
 
     private class CaptureGestureListener extends GestureDetector.SimpleOnGestureListener {
