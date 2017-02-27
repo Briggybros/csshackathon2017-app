@@ -90,6 +90,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
 
     private LocationManager locationMangaer=null;
     private LocationListener locationListener=null;
+    private Location location;
 
     /**
      * Initializes the UI and creates the detector pipeline.
@@ -120,7 +121,6 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
         Snackbar.make(mGraphicOverlay, "Tap to capture. Pinch/Stretch to zoom",
                 Snackbar.LENGTH_LONG)
                 .show();
-        gps();
     }
 
     private Location gps() {
@@ -145,6 +145,13 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
     private void sendBarcode() {
 
 
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+
+        this.location = gps();
     }
 
     public void toggleFlash(View view) {
@@ -404,8 +411,10 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
 
         if (best != null) {
             Log.d("Barcode", best.displayValue);
+            Log.d("Latitude", String.valueOf(this.location.getLatitude()));
+            Log.d("Latitude", String.valueOf(this.location.getLongitude()));
             FetchInstructionsTask fetchInstructionsTask = new FetchInstructionsTask();
-            fetchInstructionsTask.execute();
+            fetchInstructionsTask.execute(best.displayValue);
             return true;
         }
         return false;
