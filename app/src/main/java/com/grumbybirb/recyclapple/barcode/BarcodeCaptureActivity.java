@@ -38,6 +38,7 @@ import android.view.MotionEvent;
 import android.view.ScaleGestureDetector;
 import android.view.View;
 import android.widget.Toast;
+import android.hardware.Camera.Parameters;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
@@ -112,10 +113,10 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
 
     public void toggleFlash(View view) {
         Log.d("myTag", mCameraSource.getFlashMode());
-        if (mCameraSource.getFlashMode().equals("torch")) {
-            mCameraSource.setFlashMode("off");
-        } else if (mCameraSource.getFlashMode().equals("off")) {
-            mCameraSource.setFlashMode("torch");
+        if (mCameraSource.getFlashMode().equals(Parameters.FLASH_MODE_ON)) {
+            mCameraSource.setFlashMode(Parameters.FLASH_MODE_OFF);
+        } else if (mCameraSource.getFlashMode().equals(Parameters.FLASH_MODE_OFF)) {
+            mCameraSource.setFlashMode(Parameters.FLASH_MODE_ON);
         }
     }
 
@@ -144,7 +145,6 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
                         RC_HANDLE_CAMERA_PERM);
             }
         };
-
         findViewById(R.id.topLayout).setOnClickListener(listener);
         Snackbar.make(mGraphicOverlay, R.string.permission_camera_rationale,
                 Snackbar.LENGTH_INDEFINITE)
