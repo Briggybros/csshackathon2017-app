@@ -110,6 +110,11 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
                 .show();
     }
 
+    private void sendBarcode() {
+
+
+    }
+
     public void toggleFlash(View view) {
         Log.d("myTag", mCameraSource.getFlashMode());
         if (mCameraSource.getFlashMode().equals("torch")) {
