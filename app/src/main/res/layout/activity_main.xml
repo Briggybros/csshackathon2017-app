@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout
+<android.support.design.widget.AppBarLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/topLayout"
     android:orientation="vertical"
@@ -8,16 +8,37 @@
     android:layout_height="match_parent"
     android:keepScreenOn="true">
 
-    <com.grumbybirb.recyclapple.barcode.camera.CameraSourcePreview
-        android:id="@+id/preview"
+    <RelativeLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
-        <com.grumbybirb.recyclapple.barcode.camera.GraphicOverlay
-            android:id="@+id/graphicOverlay"
+        <com.grumbybirb.recyclapple.barcode.camera.CameraSourcePreview
+            android:id="@+id/preview"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent">
 
-    </com.grumbybirb.recyclapple.barcode.camera.CameraSourcePreview>
+            <com.grumbybirb.recyclapple.barcode.camera.GraphicOverlay
+                android:id="@+id/graphicOverlay"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
 
-</LinearLayout>
+        </com.grumbybirb.recyclapple.barcode.camera.CameraSourcePreview>
+
+        <Button
+            android:text="Button"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:background="@color/colorAccent"
+            android:id="@+id/button3"
+            android:layout_x="307dp"
+            android:layout_y="440dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true"
+            android:layout_marginRight="32dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="39dp" />
+
+    </RelativeLayout>
+
+</android.support.design.widget.AppBarLayout>
