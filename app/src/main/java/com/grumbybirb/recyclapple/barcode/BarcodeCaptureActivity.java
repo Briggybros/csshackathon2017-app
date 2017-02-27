@@ -158,11 +158,10 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
     }
 
     public void toggleFlash(View view) {
-
-        if (mCameraSource.getFlashMode().equals(Parameters.FLASH_MODE_ON)) {
+        if (mCameraSource.getFlashMode().equals(Parameters.FLASH_MODE_TORCH)) {
             mCameraSource.setFlashMode(Parameters.FLASH_MODE_OFF);
         } else if (mCameraSource.getFlashMode().equals(Parameters.FLASH_MODE_OFF)) {
-            mCameraSource.setFlashMode(Parameters.FLASH_MODE_ON);
+            mCameraSource.setFlashMode(Parameters.FLASH_MODE_TORCH);
         }
     }
 
