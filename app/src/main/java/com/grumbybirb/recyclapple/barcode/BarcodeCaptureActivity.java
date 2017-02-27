@@ -26,12 +26,16 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
+
 import android.os.AsyncTask;
+import android.location.Location;
+import android.location.LocationManager;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -44,6 +48,7 @@ import android.hardware.Camera.Parameters;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
 import com.google.android.gms.common.api.CommonStatusCodes;
+import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.vision.MultiProcessor;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
@@ -53,6 +58,8 @@ import com.grumbybirb.recyclapple.barcode.camera.CameraSourcePreview;
 import com.grumbybirb.recyclapple.barcode.camera.GraphicOverlay;
 
 import java.io.IOException;
+
+import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 /**
  * Activity for the multi-tracker app.  This app detects barcodes and displays the value with the
@@ -81,6 +88,9 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
     private ScaleGestureDetector scaleGestureDetector;
     private GestureDetector gestureDetector;
 
+    private LocationManager locationMangaer=null;
+    private LocationListener locationListener=null;
+
     /**
      * Initializes the UI and creates the detector pipeline.
      */
@@ -98,7 +108,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
         // Check for the camera permission before accessing the camera.  If the
         // permission is not granted yet, request permission.
         int rc = ActivityCompat.checkSelfPermission(this, Manifest.permission.CAMERA);
-        if (rc == PackageManager.PERMISSION_GRANTED) {
+        if (rc == PERMISSION_GRANTED) {
             createCameraSource(true, useFlash);
         } else {
             requestCameraPermission();
@@ -110,6 +120,26 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
         Snackbar.make(mGraphicOverlay, "Tap to capture. Pinch/Stretch to zoom",
                 Snackbar.LENGTH_LONG)
                 .show();
+        gps();
+    }
+
+    private Location gps() {
+        LocationManager locationManager = (LocationManager)
+        getSystemService(Context.LOCATION_SERVICE);
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+
+        if (permissionCheck == PERMISSION_GRANTED) {
+            Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            if (loc == null) {
+                Log.e("", "Location not found");
+            }
+            return loc;         /* IM SO SORRY BILAL BUT I CBA TO MAKE THIS NICE */
+        } else {
+            String permissions[] = new String[] {Manifest.permission.ACCESS_FINE_LOCATION};
+            ActivityCompat.requestPermissions(this, permissions,  0);
+        }
+
+        return null;
     }
 
     private void sendBarcode() {
@@ -118,7 +148,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
     }
 
     public void toggleFlash(View view) {
-        Log.d("myTag", mCameraSource.getFlashMode());
+
         if (mCameraSource.getFlashMode().equals(Parameters.FLASH_MODE_ON)) {
             mCameraSource.setFlashMode(Parameters.FLASH_MODE_OFF);
         } else if (mCameraSource.getFlashMode().equals(Parameters.FLASH_MODE_OFF)) {
@@ -288,7 +318,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
             return;
         }
 
-        if (grantResults.length != 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+        if (grantResults.length != 0 && grantResults[0] == PERMISSION_GRANTED) {
             Log.d(TAG, "Camera permission granted - initialize the camera source");
             // we have permission, so create the camerasource
             boolean autoFocus = getIntent().getBooleanExtra(AutoFocus,false);
@@ -384,7 +414,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
     public class FetchInstructionsTask extends AsyncTask<String, Void, String> {
         @Override
         protected String doInBackground(String... params) {
-
+            return null;
         }
     }
 
