@@ -124,31 +124,6 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
                 .show();
     }
 
-    private Location gps() {
-        LocationManager locationManager = (LocationManager)
-        getSystemService(Context.LOCATION_SERVICE);
-        if (PERMISSION_DENIED == ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-            requestLocPerms();
-        }
-        Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-        if (loc == null) {
-            Log.e("location", "Location not found");
-        }
-        return loc;
-    }
-
-    private void requestLocPerms() {
-        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-        if (permissionCheck == PERMISSION_DENIED) {
-            String permissions[] = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
-            ActivityCompat.requestPermissions(this, permissions, 0);
-        }
-    }
-
-    private void sendBarcode() {
-
-
-    }
 
     @Override
     protected void onStart() {
