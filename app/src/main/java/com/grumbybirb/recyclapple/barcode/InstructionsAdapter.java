@@ -18,8 +18,8 @@ import java.util.List;
 public class InstructionsAdapter extends ArrayAdapter {
     private Activity mContext;
 
-    public InstructionsAdapter(Activity mContext, List<Instruction> instructions) {
-        super(mContext, 0, instructions);
+    public InstructionsAdapter(Activity mContext) {
+        super(mContext, 0);
         this.mContext = mContext;
     }
 

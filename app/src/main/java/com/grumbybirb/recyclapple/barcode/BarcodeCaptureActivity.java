@@ -423,6 +423,9 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
             Log.d("Barcode", best.displayValue);
             Log.d("Latitude", String.valueOf(this.location.getLatitude()));
             Log.d("Latitude", String.valueOf(this.location.getLongitude()));
+            Intent intent = new Intent(this, Results.class);
+            intent.putExtra("barcode", best.displayValue);
+            startActivity(intent);
             return true;
         }
         return false;
