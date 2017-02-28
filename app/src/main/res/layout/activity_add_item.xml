@@ -17,30 +17,26 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp">
 
-        <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-            android:orientation="vertical" android:layout_width="match_parent"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#fff">
+            android:id="@+id/form_layout"
+            android:orientation="vertical">
 
-            <android.support.design.widget.TextInputLayout
+            <Button
                 android:layout_width="match_parent"
-                android:layout_height="56dp">
-
-                <EditText
-                    android:id="@+id/edit_message"
-                    android:layout_weight="1"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:hint="@string/edit_message"
-                    />
-
-            </android.support.design.widget.TextInputLayout>
-
-            <Spinner
-                android:id="@+id/material_spinner"
-                android:layout_width="fill_parent"
-                android:layout_height="wrap_content"/>
-
+                android:layout_height="48dp"
+                android:textColor="@color/colorAccent"
+                android:text="Add Fields"
+                android:onClick="addFields"/>
         </LinearLayout>
     </ScrollView>
+
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="56dp"
+        android:textColor="#fff"
+        android:background="@color/colorAccent"
+        android:onClick="submit"
+        android:layout_marginTop="8dp"/>
 </android.support.design.widget.AppBarLayout>
