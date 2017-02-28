@@ -390,7 +390,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
 
         if (best != null) {
             Log.d("Barcode", best.displayValue);
-            Intent intent = new Intent(this, Results.class);
+            Intent intent = new Intent(this, InstructionsActivity.class);
             intent.putExtra("barcode", best.displayValue);
             startActivity(intent);
             return true;

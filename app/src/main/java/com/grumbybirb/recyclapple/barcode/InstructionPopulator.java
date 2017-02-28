@@ -37,7 +37,7 @@ public class InstructionPopulator {
         fetchInstructionsTask.execute(barcode, String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()));
     }
 
-    public class FetchInstructionsTask extends AsyncTask<Object, Object, List<Instruction>> {
+    public class FetchInstructionsTask extends AsyncTask<String, Void, List<Instruction>> {
 
         private static final String TAG = "FetchInstructionsTask";
 
@@ -52,7 +52,7 @@ public class InstructionPopulator {
         }
 
         @Override
-        protected List<Instruction> doInBackground(Object... params) {
+        protected List<Instruction> doInBackground(String... params) {
             HttpURLConnection httpURLConnection = null;
             InputStreamReader reader = null;
 
@@ -62,9 +62,9 @@ public class InstructionPopulator {
                 final String BASE_URL = "http://185.38.149.59:8081";
                 final String ENDPOINT = "recyclapple";
                 final String BARCODE_KEY = "barcode";
-                final String BARCODE_PARAM = (String) params[0];
+                final String BARCODE_PARAM = params[0];
                 final String AUTH_KEY = "authid";
-                final String AUTH_PARAM = (String) params[1];
+                final String AUTH_PARAM = params[1];
 
                 Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                         .appendPath(ENDPOINT)
