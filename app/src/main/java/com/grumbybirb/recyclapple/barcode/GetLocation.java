@@ -25,7 +25,7 @@ public class GetLocation {
         LocationManager locationManager = (LocationManager)
                 thisActivity.getSystemService(Context.LOCATION_SERVICE);
         if (PERMISSION_DENIED == ContextCompat.checkSelfPermission(thisActivity, Manifest.permission.ACCESS_FINE_LOCATION)) {
-            requestLocPerms();
+            requestLocPerms(thisActivity);
         }
         Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
         if (loc == null) {
@@ -34,7 +34,7 @@ public class GetLocation {
         return loc;
     }
 
-    private static void requestLocPerms() {
+    private static void requestLocPerms(Activity thisActivity) {
         int permissionCheck = ContextCompat.checkSelfPermission(thisActivity, Manifest.permission.ACCESS_FINE_LOCATION);
         if (permissionCheck == PERMISSION_DENIED) {
             String permissions[] = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};

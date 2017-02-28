@@ -23,7 +23,7 @@ public class Results extends AppCompatActivity {
         Intent openingIntent = getIntent();
         String barcode = openingIntent.getStringExtra("barcode");
 
-        Location location = GetLocation.getLocation();
+        Location location = GetLocation.getLocation(this);
 
         InstructionPopulator instructionPopulator = new InstructionPopulator(this, instructionsAdapter);
         instructionPopulator.fetchInstructions(barcode, location);
