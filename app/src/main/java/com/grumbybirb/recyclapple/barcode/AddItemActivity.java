@@ -3,18 +3,32 @@ package com.grumbybirb.recyclapple.barcode;
 import android.content.res.Resources;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.AppCompatSpinner;
 import android.support.v7.widget.LinearLayoutCompat;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 
+import com.google.android.gms.vision.Frame;
+import com.google.android.gms.vision.text.Text;
 import com.grumbybirb.recyclapple.R;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Created by bkazi on 28/02/2017.
@@ -22,8 +36,8 @@ import com.grumbybirb.recyclapple.R;
 
 public final class AddItemActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
 
-    private String[] keys;
-    private String[] values;
+    private List<Component> components = new ArrayList<Component>();
+    private Map<String, String> mapVals = new HashMap<String,String>();
     private int index = 0;
 
     @Override
@@ -35,9 +49,15 @@ public final class AddItemActivity extends AppCompatActivity implements AdapterV
 
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
+
+
         Resources res = getResources();
-        keys = res.getStringArray(R.array.materials_array_key);
-        values  = res.getStringArray(R.array.materials_array);
+        String[] keys = res.getStringArray(R.array.materials_array_key);
+        String[] values  = res.getStringArray(R.array.materials_array);
+
+        for (int i = 0; i < keys.length; i++) {
+            mapVals.put(values[i], keys[i]);
+        }
 
     }
 
@@ -60,6 +80,23 @@ public final class AddItemActivity extends AppCompatActivity implements AdapterV
         LinearLayout layout = (LinearLayout) findViewById(R.id.form_layout);
         layout.addView(v, index++);
 
+    }
+
+    public void submit(View view) {
+        LinearLayout yourLinearLayoutView = (LinearLayout) findViewById(R.id.form_layout);
+
+        for(int i=0; i < yourLinearLayoutView.getChildCount(); i++) {
+            if (yourLinearLayoutView.getChildAt(i) instanceof LinearLayout) {
+                LinearLayout nextLinearLayout = (LinearLayout) yourLinearLayoutView.getChildAt(i);
+                AppCompatSpinner spinner = (AppCompatSpinner) nextLinearLayout.getChildAt(1);
+                String spinnerText =spinner.getSelectedItem().toString();
+                TextInputLayout layoutText = (TextInputLayout) nextLinearLayout.getChildAt(0);
+                TextInputEditText editText = (TextInputEditText) ((FrameLayout) layoutText.getChildAt(0)).getChildAt(0);
+                Component component = new Component(editText.getText().toString(), mapVals.get(spinnerText));
+                components.add(component);
+
+            }
+        }
     }
 
     @Override
