@@ -38,7 +38,6 @@ public class InstructionsActivity extends AppCompatActivity {
 
         this.setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
 
-        GetLocation.requestLocPerms(this);
 
         ListView listView = (ListView) findViewById(R.id.list_view);
         instructionsAdapter = new InstructionsAdapter(this);
