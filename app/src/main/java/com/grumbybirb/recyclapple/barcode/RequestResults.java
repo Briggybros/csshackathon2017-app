@@ -8,13 +8,13 @@ import java.util.List;
  */
 
 public class RequestResults {
-    private List<Instruction> instructions;
+    private List<Instruction> results;
 
-    public RequestResults(List<Instruction> instructions) {
-        this.instructions = instructions;
+    public RequestResults(List<Instruction> results) {
+        this.results = results;
     }
 
-    public List<Instruction> getInstructions() {
-        return instructions;
+    public List<Instruction> getResults() {
+        return results;
     }
 }

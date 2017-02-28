@@ -10,7 +10,7 @@ public class Instruction {
 
     public Instruction(String name, String instruction) {
         this.name = name;
-        this.instruction = name;
+        this.instruction = instruction;
     }
 
     public String getName() {
