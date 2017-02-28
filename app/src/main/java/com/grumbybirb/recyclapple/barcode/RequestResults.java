@@ -14,6 +14,10 @@ public class RequestResults {
         this.results = results;
     }
 
+    public void setResults(List<Instruction> results) {
+        this.results = results;
+    }
+
     public List<Instruction> getResults() {
         return results;
     }

@@ -13,6 +13,14 @@ public class Instruction {
         this.instruction = instruction;
     }
 
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public void setInstruction(String instruction) {
+        this.instruction = instruction;
+    }
+
     public String getName() {
         return name;
     }
