@@ -24,21 +24,22 @@
 
         </com.grumbybirb.recyclapple.barcode.camera.CameraSourcePreview>
 
-        <ImageButton
+        <android.support.design.widget.FloatingActionButton
             android:src="@drawable/ic_flash_on_black_24dp"
+            android:tint="#fff"
             android:onClick="toggleFlash"
-            android:layout_width="48dp"
-            android:layout_height="48dp"
+            android:layout_width="56dp"
+            android:layout_height="56dp"
             android:background="@color/colorAccent"
             android:id="@+id/button3"
             android:layout_x="307dp"
             android:layout_y="440dp"
+            android:layout_marginRight="21dp"
+            android:layout_marginEnd="21dp"
+            android:layout_marginBottom="22dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true"
-            android:layout_marginRight="32dp"
-            android:layout_marginEnd="32dp"
-            android:layout_marginBottom="39dp" />
+            android:layout_alignParentEnd="true" />
 
     </RelativeLayout>
 
