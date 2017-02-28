@@ -136,8 +136,6 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-
-        this.location = gps();
     }
 
     public void toggleFlash(View view) {
