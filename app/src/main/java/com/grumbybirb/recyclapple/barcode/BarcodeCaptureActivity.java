@@ -227,7 +227,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
         Context context = getApplicationContext();
 
         // A barcode detector is created to track barcodes.  An associated multi-processor instance
-        // is set to receive the barcode detection results, track the barcodes, and maintain
+        // is set to receive the barcode detection Results, track the barcodes, and maintain
         // graphics for each barcode on screen.  The factory is used by the multi-processor to
         // create a separate tracker instance for each barcode.
         BarcodeDetector barcodeDetector = new BarcodeDetector.Builder(context).build();
@@ -315,12 +315,12 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
      * <p>
      * <strong>Note:</strong> It is possible that the permissions request interaction
      * with the user is interrupted. In this case you will receive empty permissions
-     * and results arrays which should be treated as a cancellation.
+     * and Results arrays which should be treated as a cancellation.
      * </p>
      *
      * @param requestCode  The request code passed in {@link #requestPermissions(String[], int)}.
      * @param permissions  The requested permissions. Never null.
-     * @param grantResults The grant results for the corresponding permissions
+     * @param grantResults The grant Results for the corresponding permissions
      *                     which is either {@link PackageManager#PERMISSION_GRANTED}
      *                     or {@link PackageManager#PERMISSION_DENIED}. Never null.
      * @see #requestPermissions(String[], int)
@@ -344,7 +344,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
             return;
         }
 
-        Log.e(TAG, "Permission not granted: results len = " + grantResults.length +
+        Log.e(TAG, "Permission not granted: Results len = " + grantResults.length +
                 " Result code = " + (grantResults.length > 0 ? grantResults[0] : "(empty)"));
 
         DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {

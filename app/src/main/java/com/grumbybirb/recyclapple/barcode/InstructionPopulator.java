@@ -88,8 +88,8 @@ public class InstructionPopulator {
                 GsonBuilder gsonBuilder = new GsonBuilder();
                 Gson gson = gsonBuilder.create();
 //                Type movieListType = new TypeToken<List<Movie>>(){} .getType();
-                Results res = gson.fromJson(reader, Results.class);
-                instructions = res.getResults();
+                RequestResults res = gson.fromJson(reader, RequestResults.class);
+                instructions = res.getInstructions();
 
             } catch (IOException e) {
                 Log.e(TAG, "doInBackground: ", e);

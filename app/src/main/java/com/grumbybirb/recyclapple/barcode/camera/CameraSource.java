@@ -63,7 +63,7 @@ import java.util.Map;
  * {@link CameraSource.Builder#setRequestedFps(float)} to specify a frame rate that works well with
  * the capabilities of the camera hardware and the detector options that you have selected.  If CPU
  * utilization is higher than you'd like, then you may want to consider reducing FPS.  If the camera
- * preview or detector results are too "jerky", then you may want to consider increasing FPS.
+ * preview or detector Results are too "jerky", then you may want to consider increasing FPS.
  * <p/>
  * The following Android permission is required to use the camera:
  * <ul>

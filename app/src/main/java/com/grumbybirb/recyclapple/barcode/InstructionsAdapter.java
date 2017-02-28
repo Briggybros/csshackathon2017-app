@@ -32,8 +32,8 @@ public class InstructionsAdapter extends ArrayAdapter {
             convertView = inflater.inflate(R.layout.instruction_view, parent, false);
         }
 
-        TextView nameView = convertView.findViewById(R.id.name);
-        TextView instructionView = convertView.findViewById(R.id.instructions);
+        TextView nameView = (TextView) convertView.findViewById(R.id.name);
+        TextView instructionView = (TextView) convertView.findViewById(R.id.instruction);
 
         nameView.setText(instruction.getName());
         instructionView.setText(instruction.getInstruction());
