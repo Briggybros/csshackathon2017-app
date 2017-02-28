@@ -32,9 +32,9 @@ public class InstructionPopulator {
         this.mInstructionsAdapter = mInstructionsAdapter;
     }
 
-    public void fetchInstructions(String barcode, Location location) {
+    public void fetchInstructions(String barcode, String latitude, String longitude) {
         FetchInstructionsTask fetchInstructionsTask = new FetchInstructionsTask();
-        fetchInstructionsTask.execute(barcode, String.valueOf(location.getLatitude()), String.valueOf(location.getLongitude()));
+        fetchInstructionsTask.execute(barcode, latitude, longitude);
     }
 
     public class FetchInstructionsTask extends AsyncTask<String, Void, List<Instruction>> {
@@ -63,13 +63,16 @@ public class InstructionPopulator {
                 final String ENDPOINT = "recyclapple";
                 final String BARCODE_KEY = "barcode";
                 final String BARCODE_PARAM = params[0];
-                final String AUTH_KEY = "authid";
-                final String AUTH_PARAM = params[1];
+                final String LAT_KEY = "lat";
+                final String LAT_PARAM = params[1];
+                final String LONG_KEY = "long";
+                final String LONG_PARAM = params[2];
 
                 Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                         .appendPath(ENDPOINT)
                         .appendQueryParameter(BARCODE_KEY, BARCODE_PARAM)
-                        .appendQueryParameter(AUTH_KEY, AUTH_PARAM)
+                        .appendQueryParameter(LAT_KEY, LAT_PARAM)
+                        .appendQueryParameter(LONG_KEY, LONG_PARAM)
                         .build();
 
                 URL url = new URL(builtUri.toString());
