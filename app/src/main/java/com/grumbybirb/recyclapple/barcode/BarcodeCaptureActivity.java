@@ -158,7 +158,6 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements L
     }
 
     public void toggleFlash(View view) {
-        Log.d("location", "location " + getLocation().getLatitude() + "  long" + getLocation().getLongitude());
         if (mCameraSource.getFlashMode().equals(Parameters.FLASH_MODE_TORCH)) {
             mCameraSource.setFlashMode(Parameters.FLASH_MODE_OFF);
         } else if (mCameraSource.getFlashMode().equals(Parameters.FLASH_MODE_OFF)) {
