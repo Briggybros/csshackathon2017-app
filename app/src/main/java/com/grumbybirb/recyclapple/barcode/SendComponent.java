@@ -62,7 +62,6 @@ public class SendComponent {
                 GsonBuilder builder = new GsonBuilder();
                 Gson gson = builder.create();
                 String jsonOutput = gson.toJson(itemData);
-                Log.d("JSON OUTPUT", "doInBackground: " + jsonOutput);
 
                 final String BASE_URL = "http://185.38.149.59:8081";
                 final String ENDPOINT = "recyclapple";
@@ -79,14 +78,14 @@ public class SendComponent {
 
                 httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setDoOutput(true);
-                httpURLConnection.setFixedLengthStreamingMode(jsonOutput.length());
+                httpURLConnection.setRequestProperty( "Content-Type", "application/json" );
                 httpURLConnection.setRequestMethod("POST");
                 httpURLConnection.connect();
 
                 OutputStream outputStream = httpURLConnection.getOutputStream();
-                writer = new OutputStreamWriter(outputStream);
-                gson.toJson(itemData, writer);
-                outputStream.write(jsonOutput.getBytes());
+                writer = new OutputStreamWriter(outputStream, "UTF-8");
+                writer.write(jsonOutput);
+                writer.flush();
 
                 InputStream inputStream = httpURLConnection.getInputStream();
 
@@ -94,7 +93,6 @@ public class SendComponent {
                     return null;
                 }
                 reader = new InputStreamReader(inputStream);
-
                 res = gson.fromJson(reader, RequestResults.class);
 
             } catch (IOException e) {
