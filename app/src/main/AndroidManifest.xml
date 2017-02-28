@@ -32,6 +32,9 @@
             android:name=".barcode.InstructionsActivity"
             android:parentActivityName=".barcode.BarcodeCaptureActivity"
             android:screenOrientation="portrait"/>
+        <activity android:name=".barcode.AddItemActivity"
+            android:parentActivityName=".barcode.BarcodeCaptureActivity"
+            android:screenOrientation="portrait" />
     </application>
 
 </manifest>

@@ -1,6 +1,7 @@
 package com.grumbybirb.recyclapple.barcode;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.location.Location;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -37,36 +38,51 @@ public class InstructionPopulator {
         fetchInstructionsTask.execute(barcode, latitude, longitude);
     }
 
-    public class FetchInstructionsTask extends AsyncTask<String, Void, List<Instruction>> {
+    public class FetchInstructionsTask extends AsyncTask<String, Void, RequestResults> {
 
         private static final String TAG = "FetchInstructionsTask";
+        private String barcode;
+        private String latitude;
+        private String longitude;
 
         @Override
-        protected void onPostExecute(List<Instruction> instructions) {
-            if (instructions != null) {
+        protected void onPostExecute(RequestResults res) {
+            List<Instruction> instructions = res.getResults();
+            String error = res.getError();
+            if (error.equals("item not registered")) {
+                Intent intent = new Intent(mActivity, AddItemActivity.class);
+                intent.putExtra("barcode", barcode);
+                intent.putExtra("latitude", latitude);
+                intent.putExtra("longitude", longitude);
+                mActivity.startActivity(intent);
+            }
+            else if (!instructions.isEmpty()) {
                 mInstructionsAdapter.clear();
-                for (Instruction instruction : instructions) {
+                for (Instruction instruction: instructions) {
                     mInstructionsAdapter.add(instruction);
                 }
             }
         }
 
         @Override
-        protected List<Instruction> doInBackground(String... params) {
+        protected RequestResults doInBackground(String... params) {
+            barcode = params[0];
+            latitude = params[1];
+            longitude = params[2];
             HttpURLConnection httpURLConnection = null;
             InputStreamReader reader = null;
 
-            List<Instruction> instructions = new ArrayList<>();
+            RequestResults res;
 
             try {
                 final String BASE_URL = "http://185.38.149.59:8081";
                 final String ENDPOINT = "recyclapple";
                 final String BARCODE_KEY = "barcode";
-                final String BARCODE_PARAM = params[0];
+                final String BARCODE_PARAM = barcode;
                 final String LAT_KEY = "latitude";
-                final String LAT_PARAM = params[1];
+                final String LAT_PARAM = latitude;
                 final String LONG_KEY = "longitude";
-                final String LONG_PARAM = params[2];
+                final String LONG_PARAM = longitude;
 
                 Uri builtUri = Uri.parse(BASE_URL).buildUpon()
                         .appendPath(ENDPOINT)
@@ -92,8 +108,7 @@ public class InstructionPopulator {
                 GsonBuilder gsonBuilder = new GsonBuilder();
                 Gson gson = gsonBuilder.create();
 //                Type movieListType = new TypeToken<List<Movie>>(){} .getType();
-                RequestResults res = gson.fromJson(reader, RequestResults.class);
-                instructions = res.getResults();
+                res = gson.fromJson(reader, RequestResults.class);
 
             } catch (IOException e) {
                 Log.e(TAG, "doInBackground: ", e);
@@ -111,10 +126,7 @@ public class InstructionPopulator {
                 }
             }
 
-            if (!instructions.isEmpty()) {
-                return instructions;
-            }
-            return null;
+            return res;
         }
     }
 }

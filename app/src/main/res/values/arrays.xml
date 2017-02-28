@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="materials_array">
+        <item>Aerosols</item>
+        <item>Plastic Drinks Bottle</item>
+        <item>Plastic Cleaning Bottle</item>
+        <item>Bottle Top</item>
+        <item>Can</item>
+        <item>Cardboard</item>
+        <item>Carton</item>
+        <item>Foil Container</item>
+        <item>Plastic Pot</item>
+        <item>Plastic Tray</item>
+        <item>Batteries</item>
+        <item>Clothes and Textiles</item>
+        <item>Engine Oil</item>
+        <item>Glasses</item>
+        <item>Glass Bottles</item>
+        <item>Newspaper or Magazine</item>
+        <item>Paper and Envelopes</item>
+        <item>Shredded Paper</item>
+        <item>Shoes</item>
+        <item>Small Electrical Item</item>
+        <item>Screened Electrical Item</item>
+        <item>Other</item>
+    </string-array>
+
+    <string-array name="materials_array_key">
+        <item>2</item>
+        <item>3</item>
+        <item>4</item>
+        <item>5</item>
+        <item>6</item>
+        <item>7</item>
+        <item>8</item>
+        <item>9</item>
+        <item>10</item>
+        <item>11</item>
+        <item>12</item>
+        <item>13</item>
+        <item>14</item>
+        <item>15</item>
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+        <item>22</item>
+        <item>1</item>
+    </string-array>
+</resources>
