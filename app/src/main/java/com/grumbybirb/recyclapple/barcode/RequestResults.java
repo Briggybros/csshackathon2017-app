@@ -10,6 +10,10 @@ import java.util.List;
 public class RequestResults {
     private List<Instruction> instructions;
 
+    public RequestResults(List<Instruction> instructions) {
+        this.instructions = instructions;
+    }
+
     public List<Instruction> getInstructions() {
         return instructions;
     }

@@ -63,9 +63,9 @@ public class InstructionPopulator {
                 final String ENDPOINT = "recyclapple";
                 final String BARCODE_KEY = "barcode";
                 final String BARCODE_PARAM = params[0];
-                final String LAT_KEY = "lat";
+                final String LAT_KEY = "latitude";
                 final String LAT_PARAM = params[1];
-                final String LONG_KEY = "long";
+                final String LONG_KEY = "longitude";
                 final String LONG_PARAM = params[2];
 
                 Uri builtUri = Uri.parse(BASE_URL).buildUpon()
@@ -76,6 +76,7 @@ public class InstructionPopulator {
                         .build();
 
                 URL url = new URL(builtUri.toString());
+                Log.d("URL STRING", url.toString());
 
                 httpURLConnection = (HttpURLConnection) url.openConnection();
                 httpURLConnection.setRequestMethod("GET");
