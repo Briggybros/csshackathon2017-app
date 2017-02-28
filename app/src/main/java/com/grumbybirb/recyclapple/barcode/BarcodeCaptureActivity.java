@@ -27,6 +27,7 @@ import android.content.IntentFilter;
 import android.content.pm.PackageManager;
 import android.hardware.Camera;
 
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.location.Location;
 import android.location.LocationManager;
@@ -47,17 +48,24 @@ import android.hardware.Camera.Parameters;
 
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GoogleApiAvailability;
-import com.google.android.gms.common.api.CommonStatusCodes;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.vision.MultiProcessor;
 import com.google.android.gms.vision.barcode.Barcode;
 import com.google.android.gms.vision.barcode.BarcodeDetector;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 import com.grumbybirb.recyclapple.R;
 import com.grumbybirb.recyclapple.barcode.camera.CameraSource;
 import com.grumbybirb.recyclapple.barcode.camera.CameraSourcePreview;
 import com.grumbybirb.recyclapple.barcode.camera.GraphicOverlay;
 
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
@@ -413,18 +421,9 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
             Log.d("Barcode", best.displayValue);
             Log.d("Latitude", String.valueOf(this.location.getLatitude()));
             Log.d("Latitude", String.valueOf(this.location.getLongitude()));
-            FetchInstructionsTask fetchInstructionsTask = new FetchInstructionsTask();
-            fetchInstructionsTask.execute(best.displayValue);
             return true;
         }
         return false;
-    }
-
-    public class FetchInstructionsTask extends AsyncTask<String, Void, String> {
-        @Override
-        protected String doInBackground(String... params) {
-            return null;
-        }
     }
 
     private class CaptureGestureListener extends GestureDetector.SimpleOnGestureListener {
