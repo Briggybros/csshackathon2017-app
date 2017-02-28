@@ -11,7 +11,9 @@
     <android.support.v7.widget.Toolbar
         android:id="@+id/toolbar"
         android:layout_width="match_parent"
-        android:layout_height="56dp"></android.support.v7.widget.Toolbar>
+        android:layout_height="?attr/actionBarSize"
+        android:background="?attr/colorPrimary"
+        />
 
     <RelativeLayout
         android:layout_width="match_parent"
@@ -33,6 +35,7 @@
             android:src="@drawable/ic_flash_on_black_24dp"
             android:tint="#fff"
             android:onClick="toggleFlash"
+            android:translationZ="10dp"
             android:layout_width="56dp"
             android:layout_height="56dp"
             android:background="@color/colorAccent"

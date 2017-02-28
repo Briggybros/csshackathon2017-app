@@ -38,6 +38,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.MotionEvent;
@@ -109,6 +110,8 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements L
         super.onCreate(icicle);
         setContentView(R.layout.activity_main);
 
+        this.setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+
         mPreview = (CameraSourcePreview) findViewById(R.id.preview);
         mGraphicOverlay = (GraphicOverlay<BarcodeGraphic>) findViewById(R.id.graphicOverlay);
 
@@ -143,7 +146,12 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements L
         LocationManager locManager = (LocationManager)
                 getSystemService(Context.LOCATION_SERVICE);
         if (PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-            Location loc = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            Location loc = null;
+            Location loc1 = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+            Location loc2 = locManager.getLastKnownLocation((LocationManager.NETWORK_PROVIDER));
+
+            if (loc1 != null) loc = loc1;
+            else if (loc2 != null) loc = loc2;
 
             return loc;
         }

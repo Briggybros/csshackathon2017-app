@@ -37,6 +37,8 @@ public class InstructionsActivity extends AppCompatActivity {
         setContentView(R.layout.activity_results);
 
         this.setSupportActionBar((Toolbar) findViewById(R.id.toolbar));
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setDisplayShowHomeEnabled(true);
 
 
         ListView listView = (ListView) findViewById(R.id.list_view);
