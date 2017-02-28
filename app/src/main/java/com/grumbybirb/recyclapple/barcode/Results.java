@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.location.Location;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.GridView;
 import android.widget.ListView;
 
@@ -24,7 +25,7 @@ public class Results extends AppCompatActivity {
         String barcode = openingIntent.getStringExtra("barcode");
 
         Location location = GetLocation.getLocation(this);
-
+        Log.d("location", "Location is " + location.getLatitude());
         InstructionPopulator instructionPopulator = new InstructionPopulator(this, instructionsAdapter);
         instructionPopulator.fetchInstructions(barcode, location);
     }
