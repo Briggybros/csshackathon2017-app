@@ -34,6 +34,8 @@ public class Results extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_results);
 
+        GetLocation.requestLocPerms(this);
+
         ListView listView = (ListView) findViewById(R.id.list_view);
         instructionsAdapter = new InstructionsAdapter(this);
         listView.setAdapter(instructionsAdapter);

@@ -97,10 +97,6 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
     private ScaleGestureDetector scaleGestureDetector;
     private GestureDetector gestureDetector;
 
-    private LocationManager locationMangaer=null;
-    private LocationListener locationListener=null;
-    private Location location;
-
     /**
      * Initializes the UI and creates the detector pipeline.
      */
@@ -394,8 +390,6 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
 
         if (best != null) {
             Log.d("Barcode", best.displayValue);
-            Log.d("Latitude", String.valueOf(this.location.getLatitude()));
-            Log.d("Latitude", String.valueOf(this.location.getLongitude()));
             Intent intent = new Intent(this, Results.class);
             intent.putExtra("barcode", best.displayValue);
             startActivity(intent);

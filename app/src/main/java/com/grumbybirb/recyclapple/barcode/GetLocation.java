@@ -34,7 +34,7 @@ public class GetLocation {
         return loc;
     }
 
-    private static void requestLocPerms(Activity thisActivity) {
+    public static void requestLocPerms(Activity thisActivity) {
         int permissionCheck = ContextCompat.checkSelfPermission(thisActivity, Manifest.permission.ACCESS_FINE_LOCATION);
         if (permissionCheck == PERMISSION_DENIED) {
             String permissions[] = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
