@@ -23,11 +23,11 @@ public class InstructionsActivity extends AppCompatActivity {
 
         Intent openingIntent = getIntent();
         String barcode = openingIntent.getStringExtra("barcode");
+        String latitude = openingIntent.getStringExtra("latitude");
+        String longitude = openingIntent.getStringExtra("longitude");
 
-        Location location = GetLocation.getLocation(this);
-        Log.d("location", "Location is " + location.getLatitude());
         InstructionPopulator instructionPopulator = new InstructionPopulator(this, instructionsAdapter);
-        instructionPopulator.fetchInstructions(barcode, location);
+        instructionPopulator.fetchInstructions(barcode, latitude, longitude);
     }
 
     @Override
