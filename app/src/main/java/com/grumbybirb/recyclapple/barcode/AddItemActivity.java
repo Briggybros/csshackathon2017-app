@@ -34,11 +34,12 @@ import java.util.Map;
  * Created by bkazi on 28/02/2017.
  */
 
-public final class AddItemActivity extends AppCompatActivity implements AdapterView.OnItemSelectedListener {
+public final class AddItemActivity extends AppCompatActivity {
 
     private List<Component> components = new ArrayList<Component>();
     private Map<String, String> mapVals = new HashMap<String,String>();
     private int index = 0;
+    private String barcode;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -59,6 +60,8 @@ public final class AddItemActivity extends AppCompatActivity implements AdapterV
             mapVals.put(values[i], keys[i]);
         }
 
+        barcode = getIntent().getStringExtra("barcode");
+
     }
 
     public void addFields(View view) {
@@ -71,11 +74,8 @@ public final class AddItemActivity extends AppCompatActivity implements AdapterV
         // Specify the layout to use when the list of choices appears
         adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
 
-
-
         // Apply the adapter to the spinner
         spinner.setAdapter(adapter);
-        spinner.setOnItemSelectedListener(this);
 
         LinearLayout layout = (LinearLayout) findViewById(R.id.form_layout);
         layout.addView(v, index++);
@@ -94,18 +94,9 @@ public final class AddItemActivity extends AppCompatActivity implements AdapterV
                 TextInputEditText editText = (TextInputEditText) ((FrameLayout) layoutText.getChildAt(0)).getChildAt(0);
                 Component component = new Component(editText.getText().toString(), mapVals.get(spinnerText));
                 components.add(component);
-
             }
         }
-    }
-
-    @Override
-    public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-        Component component;
-    }
-
-    @Override
-    public void onNothingSelected(AdapterView<?> parent) {
-
+        SendComponent sendComponent = new SendComponent(this, components);
+        sendComponent.sendComponent(barcode);
     }
 }
