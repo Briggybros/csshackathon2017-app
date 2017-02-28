@@ -137,7 +137,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements L
 
         Intent openingIntent = getIntent();
         Boolean success = openingIntent.getBooleanExtra("success", Boolean.FALSE);
-        if (success != null) {
+        if (success == Boolean.TRUE) {
             String text = success ? "Item successfully added" : "Adding item failed";
             Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
             toast.show();
