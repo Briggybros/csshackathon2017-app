@@ -1,10 +1,12 @@
 package com.grumbybirb.recyclapple.barcode;
 
 import android.app.Activity;
+import android.content.Intent;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v4.app.ActivityCompat;
 import android.util.Log;
+import android.widget.Toast;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -39,7 +41,7 @@ public class SendComponent {
         sendComponentTask.execute(componentList);
     }
 
-    public class SendComponentTask extends AsyncTask<List<Component>, Void, Void> {
+    public class SendComponentTask extends AsyncTask<List<Component>, Void, Boolean> {
         String barcode;
 
         public SendComponentTask(String barcode) {
@@ -47,14 +49,14 @@ public class SendComponent {
         }
 
         @Override
-        protected Void doInBackground(List<Component>... params) {
+        protected Boolean doInBackground(List<Component>... params) {
             final String TAG = "Do in background POST";
 
             HttpURLConnection httpURLConnection = null;
             OutputStreamWriter writer = null;
             InputStreamReader reader = null;
 
-            RequestResults res;
+            Boolean result = false;
 
             try {
                 ItemData itemData = new ItemData(params[0]);
@@ -93,8 +95,9 @@ public class SendComponent {
                     return null;
                 }
                 reader = new InputStreamReader(inputStream);
-                res = gson.fromJson(reader, RequestResults.class);
+                RequestResults res = gson.fromJson(reader, RequestResults.class);
 
+                result = res.getError().length() == 0;
             } catch (IOException e) {
                 Log.e(TAG, "doInBackground: ", e);
             } finally {
@@ -116,13 +119,20 @@ public class SendComponent {
                     }
                 }
             }
-            return null;
+            return result;
         }
 
         @Override
-        protected void onPostExecute(Void v) {
-            super.onPostExecute(v);
+        protected void onPostExecute(Boolean b) {
+            super.onPostExecute(b);
+            if (b == Boolean.TRUE) {
+                Intent intent = new Intent(mActivity, BarcodeCaptureActivity.class);
+                intent.putExtra("success", b);
+                mActivity.startActivity(intent);
+            } else {
+                Toast toast = Toast.makeText(mActivity, "Item failed to add", Toast.LENGTH_SHORT);
+                toast.show();
+            }
         }
     }
-
 }

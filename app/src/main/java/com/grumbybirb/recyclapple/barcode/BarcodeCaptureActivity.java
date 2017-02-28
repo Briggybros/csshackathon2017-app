@@ -126,11 +126,6 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements L
         } else {
             requestCameraPermission();
         }
-//        if ( PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-//            Log.e("location", "location permission requested!!!!!!!!!11");
-//            ();
-//        }
-
 
         gestureDetector = new GestureDetector(this, new CaptureGestureListener());
         scaleGestureDetector = new ScaleGestureDetector(this, new ScaleListener());
@@ -139,6 +134,14 @@ public final class BarcodeCaptureActivity extends AppCompatActivity implements L
                 Snackbar.LENGTH_LONG)
                 .show();
 
+
+        Intent openingIntent = getIntent();
+        Boolean success = openingIntent.getBooleanExtra("success", Boolean.FALSE);
+        if (success != null) {
+            String text = success ? "Item successfully added" : "Adding item failed";
+            Toast toast = Toast.makeText(this, text, Toast.LENGTH_SHORT);
+            toast.show();
+        }
     }
 
     private Location getLocation() {
