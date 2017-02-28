@@ -75,7 +75,7 @@ import static android.content.pm.PackageManager.PERMISSION_GRANTED;
  * rear facing camera. During detection overlay graphics are drawn to indicate the position,
  * size, and ID of each barcode.
  */
-public final class BarcodeCaptureActivity extends AppCompatActivity {
+public final class BarcodeCaptureActivity extends AppCompatActivity implements LocationListener {
     private static final String TAG = "Barcode-reader";
 
     // intent request code to handle updating play services if needed.
@@ -83,6 +83,8 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
 
     // permission request codes need to be < 256
     private static final int RC_HANDLE_CAMERA_PERM = 2;
+    public static final int MY_PERMISSIONS_REQUEST_LOCATION = 99;
+
 
     // constants used to pass extra data in the intent
     public static final String AutoFocus = "AutoFocus";
@@ -97,6 +99,8 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
     private ScaleGestureDetector scaleGestureDetector;
     private GestureDetector gestureDetector;
 
+    LocationManager locationManager;
+    String provider;
     /**
      * Initializes the UI and creates the detector pipeline.
      */
@@ -119,10 +123,10 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
         } else {
             requestCameraPermission();
         }
-        if ( PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
-            Log.e("location", "location permission requested!!!!!!!!!11");
-            GetLocation.requestLocPerms(this);
-        }
+//        if ( PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+//            Log.e("location", "location permission requested!!!!!!!!!11");
+//            ();
+//        }
 
 
         gestureDetector = new GestureDetector(this, new CaptureGestureListener());
@@ -131,6 +135,20 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
         Snackbar.make(mGraphicOverlay, "Tap to capture. Pinch/Stretch to zoom",
                 Snackbar.LENGTH_LONG)
                 .show();
+
+    }
+
+    private Location getLocation() {
+
+        LocationManager locManager = (LocationManager)
+                getSystemService(Context.LOCATION_SERVICE);
+        if (PERMISSION_GRANTED == ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            Location loc = locManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+
+            return loc;
+        }
+        Log.e("location", "null return loc");
+        return null;
     }
 
 
@@ -140,6 +158,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
     }
 
     public void toggleFlash(View view) {
+        Log.d("location", "location " + getLocation().getLatitude() + "  long" + getLocation().getLongitude());
         if (mCameraSource.getFlashMode().equals(Parameters.FLASH_MODE_TORCH)) {
             mCameraSource.setFlashMode(Parameters.FLASH_MODE_OFF);
         } else if (mCameraSource.getFlashMode().equals(Parameters.FLASH_MODE_OFF)) {
@@ -177,6 +196,59 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
                 Snackbar.LENGTH_INDEFINITE)
                 .setAction(R.string.ok, listener)
                 .show();
+    }
+
+
+
+    private boolean checkLocationPermission() {
+        if (ContextCompat.checkSelfPermission(this,
+                Manifest.permission. ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+
+            // Should we show an explanation?
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this,
+                    Manifest.permission. ACCESS_FINE_LOCATION)) {
+
+                // Show an explanation to the user *asynchronously* -- don't block
+                // this thread waiting for the user's response! After the user
+                // sees the explanation, try again to request the permission.
+                new AlertDialog.Builder(this)
+                        .setTitle("location permission")
+                        .setMessage("Location permission for council guidelines")
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                //Prompt the user once explanation has been shown
+                                ActivityCompat.requestPermissions(BarcodeCaptureActivity.this,
+                                        new String[]{Manifest.permission.ACCESS_FINE_LOCATION},
+                                        MY_PERMISSIONS_REQUEST_LOCATION);
+                            }
+                        })
+                        .create()
+                        .show();
+
+
+            } else {
+                // No explanation needed, we can request the permission.
+                ActivityCompat.requestPermissions(this,
+                        new String[]{Manifest.permission. ACCESS_FINE_LOCATION},
+                        MY_PERMISSIONS_REQUEST_LOCATION);
+            }
+            return false;
+        } else {
+            return true;
+        }
+    }
+
+    @Override
+    public void onLocationChanged(Location location) {
+
+        Double lat = location.getLatitude();
+        Double lng = location.getLongitude();
+
+        Log.i("Location info: Lat", lat.toString());
+        Log.i("Location info: Lng", lng.toString());
+
     }
 
     @Override
@@ -258,6 +330,16 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
     protected void onResume() {
         super.onResume();
         startCameraSource();
+
+        if (checkLocationPermission()) {
+            if (ContextCompat.checkSelfPermission(this,
+                    Manifest.permission. ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED) {
+
+                //Request location updates:
+//                locationManager.requestLocationUpdates(provider, 400, 1, this);
+            }
+        }
     }
 
     /**
@@ -303,34 +385,56 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
     public void onRequestPermissionsResult(int requestCode,
                                            @NonNull String[] permissions,
                                            @NonNull int[] grantResults) {
-        if (requestCode != RC_HANDLE_CAMERA_PERM) {
-            Log.d(TAG, "Got unexpected permission result: " + requestCode);
-            super.onRequestPermissionsResult(requestCode, permissions, grantResults);
-            return;
-        }
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_LOCATION: {
+                // If request is cancelled, the result arrays are empty.
+                if (grantResults.length > 0
+                        && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
 
-        if (grantResults.length != 0 && grantResults[0] == PERMISSION_GRANTED) {
-            Log.d(TAG, "Camera permission granted - initialize the camera source");
-            // we have permission, so create the camerasource
-            boolean useFlash = getIntent().getBooleanExtra(UseFlash, false);
-            createCameraSource(true, useFlash);
-            return;
-        }
+                    // permission was granted, yay! Do the
+                    // location-related task you need to do.
+                    if (ContextCompat.checkSelfPermission(this,
+                            Manifest.permission.ACCESS_FINE_LOCATION)
+                            == PackageManager.PERMISSION_GRANTED) {
 
-        Log.e(TAG, "Permission not granted: Results len = " + grantResults.length +
-                " Result code = " + (grantResults.length > 0 ? grantResults[0] : "(empty)"));
+//                        //Request location updates:p
+                    }
 
-        DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
-            public void onClick(DialogInterface dialog, int id) {
-                finish();
+                } else {
+
+                    // permission denied, boo! Disable the
+                    // functionality that depends on this permission.
+
+                }
+                return;
             }
-        };
+            case RC_HANDLE_CAMERA_PERM: {
+                if (grantResults.length != 0 && grantResults[0] == PERMISSION_GRANTED) {
+                    Log.d(TAG, "Camera permission granted - initialize the camera source");
+                    // we have permission, so create the camerasource
+                    boolean useFlash = getIntent().getBooleanExtra(UseFlash, false);
+                    createCameraSource(true, useFlash);
+                    return;
+                }
 
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Multitracker sample")
-                .setMessage(R.string.no_camera_permission)
-                .setPositiveButton(R.string.ok, listener)
-                .show();
+                Log.e(TAG, "Permission not granted: Results len = " + grantResults.length +
+                        " Result code = " + (grantResults.length > 0 ? grantResults[0] : "(empty)"));
+
+                DialogInterface.OnClickListener listener = new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int id) {
+                        finish();
+                    }
+                };
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("Multitracker sample")
+                        .setMessage(R.string.no_camera_permission)
+                        .setPositiveButton(R.string.ok, listener)
+                        .show();
+            }
+        }
+
+
     }
 
     /**
@@ -396,6 +500,10 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
             Log.d("Barcode", best.displayValue);
             Intent intent = new Intent(this, InstructionsActivity.class);
             intent.putExtra("barcode", best.displayValue);
+            Location loc = getLocation();
+
+            intent.putExtra("latitude", String.valueOf(loc.getLatitude()));
+            intent.putExtra("longitude", String.valueOf(loc.getLongitude()));
             startActivity(intent);
             return true;
         }
