@@ -67,6 +67,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
+import static android.content.pm.PackageManager.PERMISSION_DENIED;
 import static android.content.pm.PackageManager.PERMISSION_GRANTED;
 
 /**
@@ -134,20 +135,22 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
     private Location gps() {
         LocationManager locationManager = (LocationManager)
         getSystemService(Context.LOCATION_SERVICE);
-        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
-
-        if (permissionCheck == PERMISSION_GRANTED) {
-            Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
-            if (loc == null) {
-                Log.e("", "Location not found");
-            }
-            return loc;         /* IM SO SORRY BILAL BUT I CBA TO MAKE THIS NICE */
-        } else {
-            String permissions[] = new String[] {Manifest.permission.ACCESS_FINE_LOCATION};
-            ActivityCompat.requestPermissions(this, permissions,  0);
+        if (PERMISSION_DENIED == ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+            requestLocPerms();
         }
+        Location loc = locationManager.getLastKnownLocation(LocationManager.GPS_PROVIDER);
+        if (loc == null) {
+            Log.e("location", "Location not found");
+        }
+        return loc;
+    }
 
-        return null;
+    private void requestLocPerms() {
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION);
+        if (permissionCheck == PERMISSION_DENIED) {
+            String permissions[] = new String[]{Manifest.permission.ACCESS_FINE_LOCATION};
+            ActivityCompat.requestPermissions(this, permissions, 0);
+        }
     }
 
     private void sendBarcode() {
@@ -163,11 +166,10 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
     }
 
     public void toggleFlash(View view) {
-
-        if (mCameraSource.getFlashMode().equals(Parameters.FLASH_MODE_ON)) {
+        if (mCameraSource.getFlashMode().equals(Parameters.FLASH_MODE_TORCH)) {
             mCameraSource.setFlashMode(Parameters.FLASH_MODE_OFF);
         } else if (mCameraSource.getFlashMode().equals(Parameters.FLASH_MODE_OFF)) {
-            mCameraSource.setFlashMode(Parameters.FLASH_MODE_ON);
+            mCameraSource.setFlashMode(Parameters.FLASH_MODE_TORCH);
         }
     }
 
