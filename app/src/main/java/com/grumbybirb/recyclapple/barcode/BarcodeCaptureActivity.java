@@ -119,7 +119,7 @@ public final class BarcodeCaptureActivity extends AppCompatActivity {
         } else {
             requestCameraPermission();
         }
-        if ( PERMISSION_DENIED == ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
+        if ( PERMISSION_GRANTED != ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)) {
             GetLocation.requestLocPerms(this);
         }
 
